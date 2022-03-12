@@ -19,6 +19,9 @@
 *.tar.gz
 *.rar
 
+# Ignore out
+out/
+
 # unignore jar libraries
 !lib/*.jar
 
