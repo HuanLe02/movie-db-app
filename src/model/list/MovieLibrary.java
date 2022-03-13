@@ -5,10 +5,11 @@ import model.movie.Movie;
 import dataio.DataIO;
 
 // java packages
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class MovieLibrary {
+public class MovieLibrary implements Iterable<Movie> {
     protected List<Movie> movieList;
 
     /**
@@ -16,7 +17,7 @@ public class MovieLibrary {
      */
     protected MovieLibrary() {
         // linked list for faster insert/remove
-        this.movieList = new LinkedList<>();
+        this.movieList = new ArrayList<>();
     }
 
     /**
@@ -30,7 +31,7 @@ public class MovieLibrary {
 
     /**
      * get list of movies in library
-     * return a copy
+     * @return copy of list of movies
      */
     public List<Movie> getMovieList() {
         // return a copy
@@ -41,8 +42,26 @@ public class MovieLibrary {
      * return size of the movie library
      * @return size
      */
-    final public int getSize() {
+    public int getSize() {
         return this.movieList.size();
+    }
+
+    @Override
+    public Iterator<Movie> iterator() {
+        Iterator<Movie> it = new Iterator<Movie>() {
+            private int currentIndex = 0;
+
+            @Override
+            public boolean hasNext() {
+                return currentIndex < getSize();
+            }
+
+            @Override
+            public Movie next() {
+                return movieList.get(currentIndex++);
+            }
+        };
+        return it;
     }
 
 }

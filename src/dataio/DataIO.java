@@ -2,6 +2,7 @@ package dataio;
 
 // self packages
 import model.movie.Movie;
+import model.user.*;
 
 // java packages
 import java.io.*;
@@ -15,6 +16,7 @@ import com.google.gson.*;
 public class DataIO {
     // private fields
     final private String configFilePath = Paths.get(System.getProperty("user.dir"), "data.config").toString();
+    final private Gson gson = new Gson();
     private String dataDirPath;
 
     /**
@@ -29,9 +31,8 @@ public class DataIO {
             infile = new FileReader(filePathStr);
         }
         catch (FileNotFoundException exception) {
-            // if not found => create new file with default data path
-            System.err.println("File Not Found.");
-            return null;
+            exception.printStackTrace();
+            throw new RuntimeException("File not found");
         }
 
         // attach scanner and read all, delimiter = '\\A'
@@ -149,12 +150,62 @@ public class DataIO {
         String jsonstr = this.readAll(movielib_path);
 
         // add to result arraylist
-        Gson gson = new Gson();
         List<Movie> result = new ArrayList<>(); // LINKED OR ARRAY???
         Collections.addAll(result, gson.fromJson(jsonstr, Movie[].class));
 
         // return
         return result;
+    }
+
+    /**
+     * check if user with username exists
+     * @param username: username
+     * @return true if user exists
+     */
+    public Boolean userExists(String username) {
+        String fname = username + ".json";
+        return Files.exists(Paths.get(dataDirPath, "users", fname));
+    }
+
+    /**
+     * get User with username
+     * @param username: username
+     * @return User object
+     */
+    public User getUser(String username) {
+        if (!userExists(username)) {
+            throw new RuntimeException("User not found");
+        }
+        // read string from user file
+        String fname = username + ".json";
+        String fpath = Paths.get(dataDirPath, "users", fname).toString();
+        String jsonstr = this.readAll(fpath);
+
+        // parse obj from json string
+        User u = gson.fromJson(jsonstr, User.class);
+        return u;
+    }
+
+    /**
+     * get User object to json file
+     * @param user
+     */
+    public void saveUser(User user) {
+        String fname = user.getUsername() + ".json";
+        Path fpath = Paths.get(dataDirPath, "users", fname);
+
+        // if user does not exist, create user file
+        if (!userExists(user.getUsername())) {
+            try {
+                Files.createFile(fpath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // overwrite file with new json string
+        String jsonstr = gson.toJson(user);
+        this.overwriteAll(fpath.toString(), jsonstr);
     }
 
 

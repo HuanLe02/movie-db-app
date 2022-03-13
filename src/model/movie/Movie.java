@@ -1,6 +1,9 @@
 package model.movie;
 
-public class Movie implements Cloneable{
+/**
+ * Object containing information of a movie. This is an immutable object
+ */
+public class Movie {
     // fields
     private String Title;
     private String Year;
@@ -9,26 +12,19 @@ public class Movie implements Cloneable{
     private String Runtime;
     private String Genre;
     private String Director;
+    private String Writer;
     private String Actors;
     private String Plot;
     private String Language;
     private String Countries;
+    private String Awards;
     private String Poster;
     private String Metascore;
     private String imdbRating;
+    private String imdbVotes;
     private String imdbID;
     private String type;
     private String BoxOffice;
-
-    // Overriding clone() method of Object class
-    public Movie clone(){
-        try {
-            return (Movie) super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     // equals method
     public Boolean equals(Movie m2) {
@@ -63,6 +59,10 @@ public class Movie implements Cloneable{
         return Director;
     }
 
+    public String getWriter() {
+        return Writer;
+    }
+
     public String getActors() {
         return Actors;
     }
@@ -79,6 +79,10 @@ public class Movie implements Cloneable{
         return Countries;
     }
 
+    public String getAwards() {
+        return Awards;
+    }
+
     public String getPoster() {
         return Poster;
     }
@@ -89,6 +93,10 @@ public class Movie implements Cloneable{
 
     public String getImdbRating() {
         return imdbRating;
+    }
+
+    public String getImdbVotes() {
+        return imdbVotes;
     }
 
     public String getImdbID() {

@@ -2,38 +2,47 @@
 import dataio.DataIO;
 import model.list.*;
 import model.movie.Movie;
+import model.user.*;
 
 // java packages
-import java.util.List;
+import java.util.*;
+
+import com.google.gson.*;
 
 public class Main {
+    final private static AccountManager manager = new AccountManager();
+    final private static DataIO dataIO = new DataIO();
+
+    public static void autosave() {
+        Timer t = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                User currentUser = manager.getCurrentUser();
+                if (currentUser != null) {
+                    dataIO.saveUser(currentUser);     // save user
+                    // System.out.println("User saved.");
+                }
+//                else {
+//                    System.out.println("No user");
+//                }
+            }
+        };
+        t.scheduleAtFixedRate(
+                task ,
+                0,      //delay before first execution
+                1000L); //time between executions
+    }
+
     public static void main(String[] args) {
-        DataIO d = new DataIO();
+        // background thread, autosaving user data
+        autosave();
 
-        System.out.println(d.getConfigFilePath());
-        System.out.println(d.getDataDirPath());
-        d.setDataDirPath("data/users");
-        d.setDataDirPath("data");
+        // load data from library
+        final MovieLibrary library = new MovieLibrary(dataIO);
+        System.out.printf("Movie library loaded with %d items.\n", library.getSize());
 
 
-        List<Movie> result = d.getMovieLibraryList();
-        System.out.println(result.size());
-
-        MovieLibrary mylibrary = new MovieLibrary(d);
-        List<Movie> mlist = mylibrary.getMovieList();
-        Movie m1 = mlist.get(59);
-        Movie m2 = mlist.get(32);
-        System.out.println(m1.getTitle());
-        System.out.println(m2.getTitle());
-
-        MovieCollection mycollection = new MovieCollection("Collection 1");
-        mycollection.addMovie(m1);
-        mycollection.addMovie(m1);
-        mycollection.deleteMovie(m2);
-        mycollection.addMovie(m2);
-        mycollection.rename("Collection 2");
-        System.out.println(mycollection.getSize());
-        System.out.println(mycollection.getName());
-
+        System.exit(0);
     }
 }
