@@ -25,6 +25,10 @@
 # Ignore out
 out/
 
+# Ignore user + review file
+data/users
+data/reviews.json
+
 # unignore jar libraries
 !lib/*.jar
 

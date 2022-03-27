@@ -4,7 +4,7 @@ package model.list;
 import model.movie.Movie;
 
 // java packages
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovieCollection extends MovieLibrary implements Cloneable {
@@ -17,14 +17,6 @@ public class MovieCollection extends MovieLibrary implements Cloneable {
     public MovieCollection(String name) {
         super();  // call constructor of parent class
         this.name = name;
-    }
-
-    /**
-     * Private constructor, only used for cloning
-     * @param mlist: List<Movie>
-     */
-    private MovieCollection(List<Movie> mlist) {
-        this.movieList = mlist;
     }
 
     /**
@@ -69,20 +61,22 @@ public class MovieCollection extends MovieLibrary implements Cloneable {
         this.movieList.removeIf(movie -> movie.equals(m));
     }
 
-
     /**
-     * Clone MovieCollection object
-     * @return A MovieCollection object that is a clone
+     * Clone a Movie Collection
+     * Shallow copy of movieList
+     * @return clone object
      */
+    @Override
     public MovieCollection clone() {
-        // create a copy list, add clones of movies one-by-one
-        List<Movie> listcopy = new LinkedList<>();
-        for (Movie m: this.movieList) {
-            listcopy.add(m);
+        try {
+            return (MovieCollection) super.clone();
         }
-        // new copy object to return
-        MovieCollection copy = new MovieCollection(listcopy);
-        return copy;
+        catch (java.lang.CloneNotSupportedException err) {
+            System.err.println("Clone not supported for MovieCollection");
+            err.printStackTrace();
+            return null;
+        }
+
     }
 
 }

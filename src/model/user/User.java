@@ -9,15 +9,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class User {
     // private fields
-    private String username;
+    private final String username;
     private String password;
-//    private String securityQuestion;
-//    private String securityAnswer;
-    private Boolean isAdmin;
-    private List<MovieCollection> listOfCollections;
+    private final String securityQuestion;
+    private final String securityAnswer;
+    private final boolean isAdmin;
+    private final List<MovieCollection> listOfCollections;
 
     /**
      * Generate an MD5 hash string given input
@@ -48,32 +49,20 @@ public class User {
     }
 
     /**
-     * Default constructor
-     * @param username: username
-     * @param password: password
-     */
-    public User(String username, String password) {
-        // store username
-        this.username = username;
-        // store hashed password
-        this.password = getMD5(password);
-        // set type
-        this.isAdmin = false;
-        // empty collection list
-        this.listOfCollections = new LinkedList<>();
-    }
-
-    /**
-     * Constructor, taking optional isAdmin param
+     * Constructor
      * @param username: username
      * @param password: password
      * @param isAdmin: is user admin?
      */
-    public User(String username, String password, Boolean isAdmin) {
+    public User(String username, String password, String securityQuestion, String securityAnswer,
+                boolean isAdmin) {
         // store username
         this.username = username;
         // store hashed password
         this.password = getMD5(password);
+        // store security question + answers
+        this.securityQuestion = securityQuestion;
+        this.securityAnswer = getMD5(securityAnswer.toLowerCase());
         // set type
         this.isAdmin = isAdmin;
         // empty collection list
@@ -89,27 +78,45 @@ public class User {
     }
 
     /**
-     * set new username
-     * @param newUsername: new username
+     * get security question
+     * @return security question
      */
-    public void setUsername(String newUsername) {
-        this.username = newUsername;
+    public String getSecurityQuestion() {
+        return securityQuestion;
+    }
+
+    /**
+     * set new password
+     * @param newPassword: new password
+     */
+    public void setPassword(String newPassword) {
+        // store hashed newPassword
+        this.password = getMD5(newPassword);
     }
 
     /**
      * Verify input password against stored user password
-     * @param input
+     * @param input: String
      * @return True if password matches, False otherwise
      */
-    public Boolean verifyPassword(String input) {
+    public boolean verifyPassword(String input) {
         return getMD5(input).equals(this.password);
+    }
+
+    /**
+     * Verify input password against stored user password
+     * @param input: String
+     * @return True if security answer matches, False otherwise
+     */
+    public boolean verifySecurityAnswer(String input) {
+        return getMD5(input.toLowerCase()).equals(this.securityAnswer);
     }
 
     /**
      * Verify if user has collection with name
      * @return True if listOfCollections has a collection with name, False otherwise
      */
-    public Boolean isInCollectionList(String name) {
+    public boolean isInCollectionList(String name) {
         for (MovieCollection collection: this.listOfCollections) {
             if (collection.getName().equals(name)) {
                 return true;
@@ -146,7 +153,7 @@ public class User {
      * @return List of Movie Collection
      */
     public List<MovieCollection> getListOfCollections() {
-        // add clones of each MovieCollection to new List
+        // add clones of each MovieCollection to copy List to return
         List<MovieCollection> copy = new LinkedList<>();
         for (MovieCollection c: this.listOfCollections) {
             copy.add(c.clone());

@@ -1,19 +1,23 @@
 // self packages
 import dataio.DataIO;
-import model.list.*;
-import model.movie.Movie;
 import model.user.*;
+import view.auth.WelcomeFrame;
 
 // java packages
 import java.util.*;
+import java.util.Timer;
 
-import com.google.gson.*;
+import javax.swing.*;
 
 public class Main {
-    final private static AccountManager manager = new AccountManager();
     final private static DataIO dataIO = new DataIO();
+    final private static AccountManager manager = new AccountManager(dataIO);
 
-    public static void autosave() {
+
+    /**
+     * Helper function to automatically save user data
+     */
+    private static void autosave() {
         Timer t = new Timer();
         TimerTask task = new TimerTask() {
             @Override
@@ -35,14 +39,19 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        // background thread, autosaving user data
-        autosave();
+//        // background thread, autosave user data
+//        autosave();
+//
+//        // load data from library
+//        final MovieLibrary library = new MovieLibrary(dataIO);
+//        System.out.printf("Movie library loaded with %d items.\n", library.getSize());
+//
+//        System.out.println(library.get(0).getTitle());
+//        manager.createAccount("dummy1", "pass", "abcd", "abcde", false);
 
-        // load data from library
-        final MovieLibrary library = new MovieLibrary(dataIO);
-        System.out.printf("Movie library loaded with %d items.\n", library.getSize());
+        WelcomeFrame frame = new WelcomeFrame(manager);
+        frame.setVisible(true);
 
-
-        System.exit(0);
+//        System.exit(0);
     }
 }

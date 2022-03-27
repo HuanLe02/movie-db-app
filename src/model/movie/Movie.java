@@ -2,6 +2,7 @@ package model.movie;
 
 /**
  * Object containing information of a movie. This is an immutable object
+ * No constructor. Object is created through GSON parsing
  */
 public class Movie {
     // fields
@@ -26,8 +27,13 @@ public class Movie {
     private String type;
     private String BoxOffice;
 
-    // equals method
-    public Boolean equals(Movie m2) {
+    /**
+     * Check if 2 movie objects are equal
+     * Equality <=> same imdbID
+     * @param m2: second Movie object
+     * @return true or false
+     */
+    public boolean equals(Movie m2) {
         return this.imdbID.equals(m2.getImdbID());
     }
 

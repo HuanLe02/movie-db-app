@@ -46,9 +46,13 @@ public class MovieLibrary implements Iterable<Movie> {
         return this.movieList.size();
     }
 
+    /**
+     * Factory to return an iterator over MovieLibrary
+     * @return it: an iterator
+     */
     @Override
     public Iterator<Movie> iterator() {
-        Iterator<Movie> it = new Iterator<Movie>() {
+        Iterator<Movie> it = new Iterator<>() {
             private int currentIndex = 0;
 
             @Override
@@ -62,6 +66,29 @@ public class MovieLibrary implements Iterable<Movie> {
             }
         };
         return it;
+    }
+
+    /**
+     * Get a movie from list, also support negative index from the back
+     * @param index: index of movie to be selected
+     * @return Movie at index
+     */
+    public Movie get(int index) {
+        // convert to positive if negative index
+        int newIndex;
+        if (index < 0) {
+            newIndex = index + getSize();
+        }
+        else {
+            newIndex = index;
+        }
+        // indexing
+        if (newIndex > getSize() || newIndex < 0) {
+            return null;
+        }
+        else {
+            return movieList.get(index);
+        }
     }
 
 }

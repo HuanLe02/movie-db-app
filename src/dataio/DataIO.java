@@ -192,7 +192,16 @@ public class DataIO {
      */
     public void saveUser(User user) {
         String fname = user.getUsername() + ".json";
+        Path dirpath = Paths.get(dataDirPath, "users");
         Path fpath = Paths.get(dataDirPath, "users", fname);
+
+        // if there's no user folder, create one
+        if (!Files.exists(dirpath)) {
+            try { Files.createDirectory(dirpath); }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         // if user does not exist, create user file
         if (!userExists(user.getUsername())) {
