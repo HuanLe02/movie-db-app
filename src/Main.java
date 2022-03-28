@@ -1,5 +1,6 @@
 // self packages
 import dataio.DataIO;
+import model.list.MovieCollection;
 import model.movie.Movie;
 import model.list.MovieLibrary;
 import model.user.*;
@@ -52,7 +53,6 @@ public class Main {
 
         WelcomeFrame frame = new WelcomeFrame(manager);
         frame.setVisible(true);
-
 
 
 //        System.exit(0);
