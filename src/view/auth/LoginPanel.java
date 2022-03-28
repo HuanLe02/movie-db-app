@@ -6,7 +6,6 @@ import view.LinkButton;
 
 // java packages
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -29,7 +28,7 @@ public class LoginPanel extends JPanel implements ActionListener {
     private final JButton loginButton = new JButton("Login");
     private final JButton resetButton = new JButton("Reset");
     private final JCheckBox showPassword = new JCheckBox("Show Password");
-
+    private final JButton forgotPassword = new LinkButton("Forget Password?");
 
     /**
      * Constructor
@@ -64,6 +63,8 @@ public class LoginPanel extends JPanel implements ActionListener {
         this.add(Box.createVerticalStrut(5));
         this.add(resetButton);
         this.add(Box.createVerticalStrut(5));
+        this.add(forgotPassword);
+        this.add(Box.createVerticalStrut(5));
     }
 
     /**
@@ -73,6 +74,7 @@ public class LoginPanel extends JPanel implements ActionListener {
         loginButton.addActionListener(this);
         resetButton.addActionListener(this);
         showPassword.addActionListener(this);
+        forgotPassword.addActionListener(this);
     }
 
     /**
@@ -98,14 +100,15 @@ public class LoginPanel extends JPanel implements ActionListener {
             // try logging in, show dialog if fail
             try {
                 accManager.login(usrText, pwdText);
+                assert accManager.isLoggedIn();
                 // dialog if success
-                JOptionPane.showMessageDialog(this, "Login Successful");
-                // transition to next frame
+                JOptionPane.showMessageDialog(parentFrame, "Login Successful");
+                // transition to app
                 parentFrame.transitionToApp();
             } catch (RuntimeException loginError) {
-                JOptionPane.showMessageDialog(this, "Invalid Username or Password");
+                JOptionPane.showMessageDialog(parentFrame, loginError.getMessage());
+                assert !accManager.isLoggedIn();
             }
-
         }
         // RESET button
         if (e.getSource() == resetButton) {
@@ -118,6 +121,23 @@ public class LoginPanel extends JPanel implements ActionListener {
             } else {
                 passwordField.setEchoChar('*');
             }
+        }
+        // forgotPassword
+        if (e.getSource() == forgotPassword) {
+            clearFields();
+
+            // new dialog
+            ForgetPassDialog dialog = new ForgetPassDialog(accManager, false);
+            dialog.setModal(true);
+            dialog.setVisible(true);
+
+            // logout temporary user when dialog is closed
+            dialog.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    accManager.logout();
+                }
+            });
         }
     }
 }

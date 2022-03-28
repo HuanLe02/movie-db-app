@@ -13,7 +13,7 @@ public class MovieLibrary implements Iterable<Movie> {
     protected List<Movie> movieList;
 
     /**
-     * Default constructor. Can only be called by the subclass MovieCollection
+     * Constructor. Can only be called by the subclass MovieCollection
      */
     protected MovieLibrary() {
         // linked list for faster insert/remove

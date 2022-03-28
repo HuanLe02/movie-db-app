@@ -131,6 +131,7 @@ public class DataIO {
     /**
      * set path of data directory
      * after calling this once, config file will always contain absolute path
+     * can only be called by admin user
      * @param newDataDirPath : new path to set (absolute, or relative to config file)
      */
     public void setDataDirPath(String newDataDirPath) {
@@ -172,7 +173,7 @@ public class DataIO {
      * @param username: username
      * @return User object
      */
-    public User getUser(String username) {
+    public User getUser(String username) throws RuntimeException {
         if (!userExists(username)) {
             throw new RuntimeException("User not found");
         }
@@ -215,6 +216,8 @@ public class DataIO {
         // overwrite file with new json string
         String jsonstr = gson.toJson(user);
         this.overwriteAll(fpath.toString(), jsonstr);
+
+        System.out.println("User data saved");
     }
 
 

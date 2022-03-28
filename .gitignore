@@ -25,11 +25,11 @@
 # Ignore out
 out/
 
-# Ignore user + review file
-data/users
+# Ignore user folder + review file
+data/users/
 data/reviews.json
 
-# unignore jar libraries
+# Unignore jar libraries
 !lib/*.jar
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml

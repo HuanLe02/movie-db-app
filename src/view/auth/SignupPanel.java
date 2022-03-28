@@ -94,6 +94,7 @@ public class SignupPanel extends JPanel implements ActionListener {
         signupButton.addActionListener(this);
         resetButton.addActionListener(this);
         showPassword.addActionListener(this);
+        adminStatus.addActionListener(this);
     }
 
     /**
@@ -111,7 +112,7 @@ public class SignupPanel extends JPanel implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        //Coding Part of LOGIN button
+        //Coding Part of SignUp button
         if (e.getSource() == signupButton) {
             // get inputs from text field
             String usrText = userTextField.getText();
@@ -131,8 +132,8 @@ public class SignupPanel extends JPanel implements ActionListener {
                 JOptionPane.showMessageDialog(this, "User created. You can login now.");
                 clearFields();
             }
-            catch (RuntimeException usernameTaken) {
-                JOptionPane.showMessageDialog(this, "Username already taken");
+            catch (RuntimeException error) {
+                JOptionPane.showMessageDialog(this, error.getMessage());
             }
 
         }
@@ -150,7 +151,7 @@ public class SignupPanel extends JPanel implements ActionListener {
         }
         // adminStatus JCheckBox
         if (e.getSource() == adminStatus) {
-            if (showPassword.isSelected()) {
+            if (adminStatus.isSelected()) {
                 isAdmin = true;
             } else {
                 isAdmin = false;

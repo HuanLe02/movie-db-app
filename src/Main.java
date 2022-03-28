@@ -1,5 +1,7 @@
 // self packages
 import dataio.DataIO;
+import model.movie.Movie;
+import model.list.MovieLibrary;
 import model.user.*;
 import view.auth.WelcomeFrame;
 
@@ -25,7 +27,6 @@ public class Main {
                 User currentUser = manager.getCurrentUser();
                 if (currentUser != null) {
                     dataIO.saveUser(currentUser);     // save user
-                    // System.out.println("User saved.");
                 }
 //                else {
 //                    System.out.println("No user");
@@ -51,6 +52,8 @@ public class Main {
 
         WelcomeFrame frame = new WelcomeFrame(manager);
         frame.setVisible(true);
+
+
 
 //        System.exit(0);
     }

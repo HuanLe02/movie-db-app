@@ -130,11 +130,10 @@ public class User {
      * Changes in mc => changes of state in User
      * @param mc: MovieCollection object
      */
-    public void addCollection(MovieCollection mc) {
+    public void addCollection(MovieCollection mc) throws RuntimeException {
         // stop if collection with name already in list
         if (isInCollectionList(mc.getName())) {
-            System.out.println("Collection with name already in list");
-            return;
+            throw new RuntimeException("Collection with name already in list");
         }
         this.listOfCollections.add(mc);
     }

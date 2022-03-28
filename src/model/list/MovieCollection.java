@@ -39,13 +39,12 @@ public class MovieCollection extends MovieLibrary implements Cloneable {
      * add a movie object M to collection
      * @param newMovie: Movie object to be added
      */
-    public void addMovie(Movie newMovie) {
+    public void addMovie(Movie newMovie) throws RuntimeException {
         // search list
         for (Movie movie: this.movieList) {
-            // if movie with imdbID already exists in collection => early return
+            // if movie with imdbID already exists in collection => throw error
             if (movie.equals(newMovie)) {
-                System.out.println("Movie already in list");
-                return;
+                throw new RuntimeException("Movie already in collection");
             }
         }
         // movie not in list
@@ -56,9 +55,20 @@ public class MovieCollection extends MovieLibrary implements Cloneable {
      * remove movie(s) equal to a movie m in collection
      * @param m: movie to remove
      */
-    public void removeMovie(Movie m) {
+    public void removeMovie(Movie m) throws RuntimeException {
+        if (getSize() == 0) throw new RuntimeException("No movie to remove");
         // remove movie(s) if their imdbID is equal to given input
         this.movieList.removeIf(movie -> movie.equals(m));
+    }
+
+    /**
+     * remove movie(s) equal to a movie m in collection
+     * @param imdbID: imdb ID of movie to be removed
+     */
+    public void removeMovie(String imdbID) throws RuntimeException {
+        if (getSize() == 0) throw new RuntimeException("No movie to remove");
+        // remove movie(s) if their imdbID is equal to given input
+        this.movieList.removeIf(movie -> movie.getImdbID().equals(imdbID));
     }
 
     /**
