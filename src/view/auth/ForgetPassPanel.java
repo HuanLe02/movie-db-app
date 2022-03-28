@@ -28,7 +28,6 @@ public class ForgetPassPanel extends JPanel implements ActionListener {
 
     /**
      * Constructor
-     * Reused in
      */
     ForgetPassPanel(AccountManager accManager, ForgetPassDialog parentFrame) {
         this.accManager = accManager;

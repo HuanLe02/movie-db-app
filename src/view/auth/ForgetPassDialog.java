@@ -12,9 +12,8 @@ public class ForgetPassDialog extends JDialog {
     /**
      * Constructor
      * @param accManager: AccountManager object to be passed to panel
-     * @param isLoggedIn: True if User is already logged in, False otherwise
-     */
-   public ForgetPassDialog(AccountManager accManager, boolean isLoggedIn) {
+     * */
+   public ForgetPassDialog(AccountManager accManager) {
        // home container
        JPanel homeContainer = new JPanel();
        homeContainer.setLayout(new BoxLayout(homeContainer, BoxLayout.LINE_AXIS));

@@ -159,4 +159,11 @@ public class User {
         }
         return copy;
     }
+
+    /**
+     * @return number of collections User has
+     */
+    public int numOfCollections() {
+        return this.listOfCollections.size();
+    }
 }

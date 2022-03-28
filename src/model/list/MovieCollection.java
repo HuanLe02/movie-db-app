@@ -77,16 +77,16 @@ public class MovieCollection extends MovieLibrary implements Cloneable {
      * @return clone object
      */
     @Override
-    public MovieCollection clone() {
+    public MovieCollection clone() throws RuntimeException {
         try {
             MovieCollection copy = (MovieCollection) super.clone();
-            copy.movieList = List.copyOf(this.movieList);
+            copy.movieList = List.copyOf(this.movieList); // shallow copy of the movieList
             return copy;
         }
         catch (java.lang.CloneNotSupportedException err) {
             System.err.println("Clone not supported for MovieCollection");
             err.printStackTrace();
-            return null;
+            throw new RuntimeException("Cannot clone MovieCollection");
         }
 
     }

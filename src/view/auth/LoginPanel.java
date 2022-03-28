@@ -127,7 +127,7 @@ public class LoginPanel extends JPanel implements ActionListener {
             clearFields();
 
             // new dialog
-            ForgetPassDialog dialog = new ForgetPassDialog(accManager, false);
+            ForgetPassDialog dialog = new ForgetPassDialog(accManager);
             dialog.setModal(true);
             dialog.setVisible(true);
 

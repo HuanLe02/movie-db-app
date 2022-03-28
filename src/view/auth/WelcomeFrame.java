@@ -9,13 +9,15 @@ import javax.swing.*;
 import java.awt.*;
 
 public class WelcomeFrame extends JFrame {
-
+    private final AccountManager accManager;
 
     /**
      * construct new Welcome Frame
      * @param accManager: AccountManager object to be passed to panels
      */
     public WelcomeFrame(AccountManager accManager) {
+        this.accManager = accManager;
+
         JPanel homeContainer = new JPanel();
         homeContainer.setLayout(new BoxLayout(homeContainer, BoxLayout.LINE_AXIS));
 
@@ -43,11 +45,12 @@ public class WelcomeFrame extends JFrame {
      * Transition to app view
      */
     void transitionToApp() {
-        JFrame appView = new JFrame();
-        appView.setSize(1000, 1000);
-        appView.setLocationRelativeTo(null);
-        appView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        appView.setVisible(true);
+        JFrame appFrame = new AppFrame(accManager);
+//        appFrame.pack();
+        appFrame.setSize(500,500);
+        appFrame.setLocationRelativeTo(null);
+        appFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        appFrame.setVisible(true);
         this.dispose();
     }
 
