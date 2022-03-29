@@ -97,9 +97,9 @@ public class DataIO {
 
         // attach scanner to file
         Scanner fileScanner = new Scanner(infile);
-        if (fileScanner.hasNext()) {
+        if (fileScanner.hasNextLine()) {
             // just to make sure that data field is always absolute path
-            this.dataDirPath = Paths.get(fileScanner.next()).toAbsolutePath().toString();
+            this.dataDirPath = Paths.get(fileScanner.nextLine()).toAbsolutePath().toString();
         }
 
         // close
@@ -196,11 +196,15 @@ public class DataIO {
         Path dirpath = Paths.get(dataDirPath, "users");
         Path fpath = Paths.get(dataDirPath, "users", fname);
 
+//        System.out.println(dirpath.toString());
+//        System.out.println(fpath.toString());
+
         // if there's no user folder, create one
         if (!Files.exists(dirpath)) {
             try { Files.createDirectory(dirpath); }
             catch (IOException e) {
                 e.printStackTrace();
+                throw new RuntimeException("Read Error");
             }
         }
 
@@ -210,6 +214,7 @@ public class DataIO {
                 Files.createFile(fpath);
             } catch (IOException e) {
                 e.printStackTrace();
+                throw new RuntimeException("Read Error");
             }
         }
 
@@ -217,8 +222,7 @@ public class DataIO {
         String jsonstr = gson.toJson(user);
         this.overwriteAll(fpath.toString(), jsonstr);
 
-        System.out.println("User data saved");
+        System.out.printf("User data saved at %s\n", fpath.toString());
     }
-
 
 }

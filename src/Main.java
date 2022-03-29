@@ -7,6 +7,7 @@ import model.user.*;
 import view.auth.WelcomeFrame;
 
 // java packages
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.Timer;
 
