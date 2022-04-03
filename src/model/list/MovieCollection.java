@@ -1,22 +1,23 @@
 package model.list;
 
-// self packages
 import model.movie.Movie;
 
-// java packages
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-public class MovieCollection extends MovieLibrary implements Cloneable {
+
+public class MovieCollection {
+    // fields
     private String name;
+    private final LinkedHashSet<String> movieSet;    // set of all movies (key = imdbID)
 
     /**
      * Constructor, creating custom collection with given name
      * @param name: name for collection
      */
     public MovieCollection(String name) {
-        super();  // call constructor of parent class
         this.name = name;
+        this.movieSet = new LinkedHashSet<>();
     }
 
     /**
@@ -36,59 +37,33 @@ public class MovieCollection extends MovieLibrary implements Cloneable {
     }
 
     /**
-     * add a movie object M to collection
-     * @param newMovie: Movie object to be added
+     * add a movie w/ imdb to collection
+     * @param imdbID: String
      */
-    public void addMovie(Movie newMovie) throws RuntimeException {
-        // search list
-        for (Movie movie: this.movieList) {
-            // if movie with imdbID already exists in collection => throw error
-            if (movie.equals(newMovie)) {
-                throw new RuntimeException("Movie already in collection");
-            }
+    public void addMovie(String imdbID) throws RuntimeException {
+        // throws error if movie is in collection
+        if (this.movieSet.contains(imdbID)) {
+            throw new RuntimeException("Movie already in collection");
         }
-        // movie not in list
-        this.movieList.add(newMovie);
+        // movie not in set
+        this.movieSet.add(imdbID);
     }
 
     /**
-     * remove movie(s) equal to a movie m in collection
-     * @param m: movie to remove
-     */
-    public void removeMovie(Movie m) throws RuntimeException {
-        if (getSize() == 0) throw new RuntimeException("No movie to remove");
-        // remove movie(s) if their imdbID is equal to given input
-        this.movieList.removeIf(movie -> movie.equals(m));
-    }
-
-    /**
-     * remove movie(s) equal to a movie m in collection
+     * remove movie in collection
      * @param imdbID: imdb ID of movie to be removed
+     * @precondiion collection has movie with imdbID
      */
-    public void removeMovie(String imdbID) throws RuntimeException {
-        if (getSize() == 0) throw new RuntimeException("No movie to remove");
-        // remove movie(s) if their imdbID is equal to given input
-        this.movieList.removeIf(movie -> movie.getImdbID().equals(imdbID));
+    public void removeMovie(String imdbID) {
+        this.movieSet.remove(imdbID);
     }
 
     /**
-     * Clone a Movie Collection
-     * Shallow copy of movieList
-     * @return clone object
+     * idSet()
+     * @return set of movie IDs in collection
      */
-    @Override
-    public MovieCollection clone() throws RuntimeException {
-        try {
-            MovieCollection copy = (MovieCollection) super.clone();
-            copy.movieList = List.copyOf(this.movieList); // shallow copy of the movieList
-            return copy;
-        }
-        catch (java.lang.CloneNotSupportedException err) {
-            System.err.println("Clone not supported for MovieCollection");
-            err.printStackTrace();
-            throw new RuntimeException("Cannot clone MovieCollection");
-        }
-
+    public Set<String> idSet() {
+        return new LinkedHashSet<String>(this.movieSet);   // copy of movieSet
     }
 
 }

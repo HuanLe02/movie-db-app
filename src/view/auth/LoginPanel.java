@@ -10,14 +10,14 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class LoginPanel extends JPanel implements ActionListener {
-    // Account Manager
-    private final AccountManager accManager;
-
     // Parent frame
     private final WelcomeFrame parentFrame;
 
+    // Account Manager
+    private final AccountManager accManager;
+
     // max TextField Dimension
-    private final Dimension maxTxtFieldDim = new Dimension(300, 30);
+//    private final Dimension maxTxtFieldDim = new Dimension(300, 30);
 
     // components (buttons, fields, labels)
     private final JLabel descLabel = new JLabel("SIGN IN");
@@ -33,15 +33,16 @@ public class LoginPanel extends JPanel implements ActionListener {
     /**
      * Constructor
      */
-    LoginPanel(AccountManager accManager, WelcomeFrame parentFrame) {
-        this.accManager = accManager;
+    LoginPanel(WelcomeFrame parentFrame) {
         this.parentFrame = parentFrame;
-        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        this.accManager = parentFrame.currManager();
+        this.setLayout(new GridLayout(8,1));
 
-        // set sizes
+        // set alignment
         descLabel.setFont(new Font("Verdana", Font.BOLD, 30));
-        userTextField.setMaximumSize(maxTxtFieldDim);
-        passwordField.setMaximumSize(maxTxtFieldDim);
+        descLabel.setHorizontalAlignment(SwingConstants.CENTER);
+//        userTextField.setMaximumSize(maxTxtFieldDim);
+//        passwordField.setMaximumSize(maxTxtFieldDim);
 
         addElements();
         addActionEvent();
@@ -52,19 +53,21 @@ public class LoginPanel extends JPanel implements ActionListener {
      */
     private void addElements() {
         this.add(descLabel);
-        this.add(Box.createVerticalStrut(10));
         this.add(userLabel);
         this.add(userTextField);
         this.add(passwordLabel);
         this.add(passwordField);
         this.add(showPassword);
-        this.add(Box.createVerticalStrut(5));
-        this.add(loginButton);
-        this.add(Box.createVerticalStrut(5));
-        this.add(resetButton);
-        this.add(Box.createVerticalStrut(5));
+
+        // buttonPane
+        JPanel buttonPane = new JPanel();
+        buttonPane.setLayout(new FlowLayout());
+        buttonPane.add(loginButton);
+        buttonPane.add(Box.createHorizontalStrut(10));
+        buttonPane.add(resetButton);
+        this.add(buttonPane);
+
         this.add(forgotPassword);
-        this.add(Box.createVerticalStrut(5));
     }
 
     /**
@@ -101,8 +104,6 @@ public class LoginPanel extends JPanel implements ActionListener {
             try {
                 accManager.login(usrText, pwdText);
                 assert accManager.isLoggedIn();
-                // dialog if success
-                JOptionPane.showMessageDialog(parentFrame, "Login Successful");
                 // transition to app
                 parentFrame.transitionToApp();
             } catch (RuntimeException loginError) {

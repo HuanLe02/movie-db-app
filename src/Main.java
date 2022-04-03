@@ -1,17 +1,8 @@
-// self packages
 import dataio.DataIO;
-import model.list.MovieCollection;
-import model.movie.Movie;
-import model.list.MovieLibrary;
 import model.user.*;
 import view.auth.WelcomeFrame;
 
-// java packages
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.Timer;
-
-import javax.swing.*;
 
 public class Main {
     final private static DataIO dataIO = new DataIO();
@@ -29,6 +20,7 @@ public class Main {
                 User currentUser = manager.getCurrentUser();
                 if (currentUser != null) {
                     dataIO.saveUser(currentUser);     // save user
+//                    System.out.println("User saved");
                 }
 //                else {
 //                    System.out.println("No user");
@@ -38,19 +30,17 @@ public class Main {
         t.scheduleAtFixedRate(
                 task ,
                 0,      //delay before first execution
-                1000L); //time between executions
+                100L); //time between executions (every 100 ms)
     }
 
     public static void main(String[] args) {
-//        // background thread, autosave user data
-//        autosave();
+        // background thread, autosave user data
+        autosave();
 //
 //        // load data from library
 //        final MovieLibrary library = new MovieLibrary(dataIO);
 //        System.out.printf("Movie library loaded with %d items.\n", library.getSize());
-//
-//        System.out.println(library.get(0).getTitle());
-//        manager.createAccount("dummy1", "pass", "abcd", "abcde", false);
+//        System.out.println(library.getMovie("tt0298148").getField("Year"));
 
         WelcomeFrame frame = new WelcomeFrame(manager);
         frame.setVisible(true);

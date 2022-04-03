@@ -13,11 +13,8 @@ public class SignupPanel extends JPanel implements ActionListener {
     // Account Manager
     private final AccountManager accManager;
 
-    // Parent frame
-    private final WelcomeFrame parentFrame;
-
     // max TextField Dimension
-    private final Dimension maxTxtFieldDim = new Dimension(300, 30);
+//    private final Dimension maxTxtFieldDim = new Dimension(300, 30);
 
     // List of security questions
     private final String[] questionList = {"In what city were you born?", "What is your mother's maiden name?",
@@ -43,21 +40,16 @@ public class SignupPanel extends JPanel implements ActionListener {
     // variable, if user is admin
     private boolean isAdmin = false;
 
-
     /**
      * Constructor
      */
-    SignupPanel(AccountManager accManager, WelcomeFrame parentFrame) {
-        this.accManager = accManager;
-        this.parentFrame = parentFrame;
-        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+    SignupPanel(WelcomeFrame parentFrame) {
+        this.accManager = parentFrame.currManager();
+        this.setLayout(new GridLayout(12,1));
 
         // set sizes
         descLabel.setFont(new Font("Verdana", Font.BOLD, 30));
-        userTextField.setMaximumSize(maxTxtFieldDim);
-        passwordField.setMaximumSize(maxTxtFieldDim);
-        secQuesMenu.setMaximumSize(new Dimension(400,30));
-        secAnsField.setMaximumSize(maxTxtFieldDim);
+        descLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         // add elements and action events
         addElements();
@@ -69,7 +61,6 @@ public class SignupPanel extends JPanel implements ActionListener {
      */
     private void addElements() {
         this.add(descLabel);
-        this.add(Box.createVerticalStrut(10));
         this.add(userLabel);
         this.add(userTextField);
         this.add(passwordLabel);
@@ -80,11 +71,14 @@ public class SignupPanel extends JPanel implements ActionListener {
         this.add(secAnsLabel);
         this.add(secAnsField);
         this.add(adminStatus);
-        this.add(Box.createVerticalStrut(5));
-        this.add(signupButton);
-        this.add(Box.createVerticalStrut(5));
-        this.add(resetButton);
-        this.add(Box.createVerticalStrut(5));
+
+        // buttonPane
+        JPanel buttonPane = new JPanel();
+        buttonPane.setLayout(new FlowLayout());
+        buttonPane.add(signupButton);
+        buttonPane.add(Box.createHorizontalStrut(10));
+        buttonPane.add(resetButton);
+        this.add(buttonPane);
     }
 
     /**

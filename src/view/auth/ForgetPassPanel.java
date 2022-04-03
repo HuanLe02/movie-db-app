@@ -1,6 +1,6 @@
 package view.auth;
 
-import model.user.*;
+import model.user.AccountManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ForgetPassPanel extends JPanel implements ActionListener {
-    // account manager
+    // account manager + parent frame
     private final AccountManager accManager;
     private final ForgetPassDialog parentFrame;
 
@@ -119,6 +119,8 @@ public class ForgetPassPanel extends JPanel implements ActionListener {
         }
         // second Next => prompt new password
         if (e.getSource() == nextButton2) {
+            assert accManager.isLoggedIn();
+
             // verify security answer, if false return
             String answer = secAnsField.getText();
             boolean result = accManager.getCurrentUser().verifySecurityAnswer(answer);
@@ -155,11 +157,10 @@ public class ForgetPassPanel extends JPanel implements ActionListener {
             String newPassword = String.valueOf(passwordField.getPassword());
 
             // precond: currUser not null
-            User currUser = accManager.getCurrentUser();
-            currUser.setPassword(newPassword);       // set newPassword
+            accManager.getCurrentUser().setPassword(newPassword);       // set newPassword
 
             // save current User to file
-            accManager.getDataIO().saveUser(currUser);
+            accManager.getDataIO().saveUser(accManager.getCurrentUser());
 
             // dispose parentFrame
             JOptionPane.showMessageDialog(parentFrame, "Reset password successfully");

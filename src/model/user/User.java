@@ -7,9 +7,9 @@ import model.list.MovieCollection;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.LinkedList;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
+import java.util.Set;
 
 public class User {
     // private fields
@@ -18,7 +18,10 @@ public class User {
     private final String securityQuestion;
     private final String securityAnswer;
     private final boolean isAdmin;
-    private final List<MovieCollection> listOfCollections;
+
+    // hash map of MovieCollections, key is collection name
+    // linked hashmap to preserve order
+    private final LinkedHashMap<String, MovieCollection> collectionMap = new LinkedHashMap<>();
 
     /**
      * Generate an MD5 hash string given input
@@ -65,8 +68,6 @@ public class User {
         this.securityAnswer = getMD5(securityAnswer.toLowerCase());
         // set type
         this.isAdmin = isAdmin;
-        // empty collection list
-        this.listOfCollections = new LinkedList<>();
     }
 
     /**
@@ -83,6 +84,14 @@ public class User {
      */
     public String getSecurityQuestion() {
         return securityQuestion;
+    }
+
+    /**
+     * get admin status
+     * @return True if user is admin, False otherwise
+     */
+    public boolean isAdmin() {
+        return this.isAdmin;
     }
 
     /**
@@ -113,57 +122,44 @@ public class User {
     }
 
     /**
-     * Verify if user has collection with name
-     * @return True if listOfCollections has a collection with name, False otherwise
-     */
-    public boolean isInCollectionList(String name) {
-        for (MovieCollection collection: this.listOfCollections) {
-            if (collection.getName().equals(name)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Add MovieCollection object by reference to listOfCollections
-     * Changes in mc => changes of state in User
-     * @param mc: MovieCollection object
-     */
-    public void addCollection(MovieCollection mc) throws RuntimeException {
-        // stop if collection with name already in list
-        if (isInCollectionList(mc.getName())) {
-            throw new RuntimeException("Collection with name already in list");
-        }
-        this.listOfCollections.add(mc);
-    }
-
-    /**
-     * Remove collection with name
-     * @param name: name of collection to remove
-     */
-    public void removeCollection(String name) {
-        this.listOfCollections.removeIf(movieCollection -> movieCollection.getName().equals(name));
-    }
-
-    /**
-     * get list of collections owned by users, at the moment of function call
-     * Not subscriptable to future changes
-     * @return List of Movie Collection
-     */
-    public List<MovieCollection> getListOfCollections() {
-        // add clones of each MovieCollection to copy List to return
-        List<MovieCollection> copy = new LinkedList<>();
-        for (MovieCollection c: this.listOfCollections) {
-            copy.add(c.clone());
-        }
-        return copy;
-    }
-
-    /**
      * @return number of collections User has
      */
     public int numOfCollections() {
-        return this.listOfCollections.size();
+        return this.collectionMap.size();
+    }
+
+    /**
+     * @return Set of names of collections
+     */
+    public Set<String> getCollectionNames() {
+        return this.collectionMap.keySet();
+    }
+
+    /**
+     * Add new MovieCollection with name to collectionMap
+     * @param name: name of collection to be added
+     * @precondition user has no collection with given name
+     */
+    public void addCollection(String name) {
+        // add collection with name to list
+        this.collectionMap.put(name, new MovieCollection(name));
+    }
+
+    /**
+     * Remove collection with name from collectionMap
+     * @param name: name of collection to remove
+     * @precondition user has collection with name
+     */
+    public void removeCollection(String name) {
+        this.collectionMap.remove(name);
+    }
+
+    /**
+     * get collection with name
+     * @return MovieCollection with name
+     * @precondition user has collection with name
+     */
+    public MovieCollection getCollection(String name) {
+        return this.collectionMap.get(name);
     }
 }

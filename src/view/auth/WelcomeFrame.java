@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class WelcomeFrame extends JFrame {
+    // universal account manager
     private final AccountManager accManager;
 
     /**
@@ -16,21 +17,22 @@ public class WelcomeFrame extends JFrame {
      * @param accManager: AccountManager object to be passed to panels
      */
     public WelcomeFrame(AccountManager accManager) {
+        // precond: user is not logged in
+        assert !accManager.isLoggedIn();
+
         this.accManager = accManager;
 
-        JPanel homeContainer = new JPanel();
-        homeContainer.setLayout(new BoxLayout(homeContainer, BoxLayout.LINE_AXIS));
+        // home container
+//        JPanel homeContainer = new JPanel();
+//        homeContainer.setLayout(new BoxLayout(homeContainer, BoxLayout.LINE_AXIS));
+
 
         // add panels
-        JPanel leftPanel = new LoginPanel(accManager, this);
-        JPanel rightPanel = new SignupPanel(accManager, this);
-        homeContainer.add(Box.createHorizontalStrut(10));
-        homeContainer.add(leftPanel);
-        homeContainer.add(Box.createHorizontalStrut(10));
-        homeContainer.add(new JSeparator(SwingConstants.VERTICAL));
-        homeContainer.add(Box.createHorizontalStrut(10));
-        homeContainer.add(rightPanel);
-        homeContainer.add(Box.createHorizontalStrut(10));
+        JPanel leftPanel = new LoginPanel(this);
+        JPanel rightPanel = new SignupPanel(this);
+
+        // split pane
+        JSplitPane homeContainer = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
 
         // frame attributes
         this.add(homeContainer);
@@ -42,15 +44,21 @@ public class WelcomeFrame extends JFrame {
     }
 
     /**
+     * @return current AccountManager
+     */
+    AccountManager currManager() {
+        return this.accManager;
+    }
+
+    /**
      * Transition to app view
      */
     void transitionToApp() {
+        // new Frame
         JFrame appFrame = new AppFrame(accManager);
-//        appFrame.pack();
-        appFrame.setSize(500,500);
-        appFrame.setLocationRelativeTo(null);
-        appFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         appFrame.setVisible(true);
+
+        // dispose this frame
         this.dispose();
     }
 

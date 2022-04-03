@@ -92,9 +92,11 @@ public class DataIO {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            // return constructor early after creating and writing file
             return;
         }
 
+        // IF CONFIG FILE ALREADY EXISTS
         // attach scanner to file
         Scanner fileScanner = new Scanner(infile);
         if (fileScanner.hasNextLine()) {
@@ -132,30 +134,79 @@ public class DataIO {
      * set path of data directory
      * after calling this once, config file will always contain absolute path
      * can only be called by admin user
-     * @param newDataDirPath : new path to set (absolute, or relative to config file)
+     * AFTER CALLING, PROGRAM MUST BE CLOSED
+     * @param newDataDirPath : new path to set (MUST BE ABSOLUTE)
      */
     public void setDataDirPath(String newDataDirPath) {
-        // update field with absolute path
-        this.dataDirPath = Paths.get(newDataDirPath).toAbsolutePath().toString();
+        // convert to Path
+        Path currMovielibPath = Paths.get(this.dataDirPath, "movielib.json");
+        Path currReviewsPath = Paths.get(this.dataDirPath, "reviews.json");
+        Path currUsersPath = Paths.get(this.dataDirPath, "users");
+        Path newMovielibPath = Paths.get(newDataDirPath, "movielib.json");
+        Path newReviewsPath = Paths.get(newDataDirPath, "reviews.json");
+        Path newUsersPath = Paths.get(newDataDirPath, "users");
 
-        // update record on file
-        this.overwriteAll(this.configFilePath, this.dataDirPath);
+        // copy movielib.json
+        try {
+            Files.copy(currMovielibPath, newMovielibPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            System.err.println("No movie library file at current path");
+        }
+
+        // copy reviews.json
+        try {
+            Files.copy(currReviewsPath, newReviewsPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            System.err.println("No reviews.json file at current path");
+        }
+
+        // if there's no user folder at newPath, create one
+        if (!Files.exists(newUsersPath)) {
+            try {
+                Files.createDirectory(newUsersPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Can't create folder");
+            }
+        }
+
+        // copy over all users
+        try {
+            Files.walk(currUsersPath)
+                    .forEach(path -> {
+                                try {
+                                    if (!path.equals(currUsersPath)) { // skip directory when walking
+                                        // copy file to new users directory
+                                        Files.copy(path, Paths.get(newDataDirPath, "users", path.getFileName().toString()),
+                                                StandardCopyOption.REPLACE_EXISTING);
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    throw new RuntimeException("Can't copy file");
+                                }
+                            }
+                    );
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("No users folder at current path");
+        }
+
+        // overwrite config file
+        overwriteAll(configFilePath, newDataDirPath);
+
+        // close program
+        System.exit(0);
     }
-
     /**
      * get list of movies from movielib.json file
-     * @return array list of Movie objects
+     * @return list of Movie objects
      */
     public List<Movie> getMovieLibraryList() {
         String movielib_path = Paths.get(this.dataDirPath, "movielib.json").toString();
         String jsonstr = this.readAll(movielib_path);
 
-        // add to result arraylist
-        List<Movie> result = new ArrayList<>(); // LINKED OR ARRAY???
-        Collections.addAll(result, gson.fromJson(jsonstr, Movie[].class));
-
-        // return
-        return result;
+        // return List<Movie>
+        return Arrays.asList(gson.fromJson(jsonstr, Movie[].class));
     }
 
     /**
@@ -189,7 +240,7 @@ public class DataIO {
 
     /**
      * get User object to json file
-     * @param user
+     * @param user: User
      */
     public void saveUser(User user) {
         String fname = user.getUsername() + ".json";
@@ -222,7 +273,7 @@ public class DataIO {
         String jsonstr = gson.toJson(user);
         this.overwriteAll(fpath.toString(), jsonstr);
 
-        System.out.printf("User data saved at %s\n", fpath.toString());
+//        System.out.printf("User data saved at %s\n", fpath.toString());
     }
 
 }

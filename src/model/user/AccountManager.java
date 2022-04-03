@@ -2,9 +2,11 @@ package model.user;
 
 // self packages
 import dataio.DataIO;
+import model.list.MovieLibrary;
 
 public class AccountManager {
-    private DataIO d;
+    private final DataIO d;
+    private final MovieLibrary library;
     private User currentUser;
 
     /**
@@ -14,6 +16,7 @@ public class AccountManager {
     public AccountManager(DataIO d) {
         this.currentUser = null;
         this.d = d;
+        this.library = new MovieLibrary(d);
     }
 
     /**
@@ -94,6 +97,13 @@ public class AccountManager {
      */
     public DataIO getDataIO() {
         return d;
+    }
+
+    /**
+     * @return MovieLibrary of app
+     */
+    public MovieLibrary getLibrary() {
+        return library;
     }
 
     /**

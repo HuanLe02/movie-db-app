@@ -1,24 +1,15 @@
 package model.list;
 
-// self packages
 import model.movie.Movie;
 import dataio.DataIO;
 
-// java packages
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 
-public class MovieLibrary implements Iterable<Movie> {
-    protected List<Movie> movieList;
-
-    /**
-     * Constructor. Can only be called by the subclass MovieCollection
-     */
-    protected MovieLibrary() {
-        // linked list for faster insert/remove
-        this.movieList = new ArrayList<>();
-    }
+public class MovieLibrary {
+    // hash map: key = imdbValue
+    private final LinkedHashMap<String, Movie> movieMap;
 
     /**
      * Constructor, build MovieLibrary object from a DataIO call
@@ -26,16 +17,30 @@ public class MovieLibrary implements Iterable<Movie> {
      */
     public MovieLibrary(DataIO d) {
         // call on DataIO to populate list
-        this.movieList = d.getMovieLibraryList();
+        List<Movie> movieList= d.getMovieLibraryList();
+
+        // transfer movieList to hashmap
+        this.movieMap = new LinkedHashMap<>();    // linked hashmap to preserve order
+        for (Movie mov : movieList) {
+            movieMap.put((String) mov.get("imdbID"), mov);
+        }
     }
 
     /**
      * get list of movies in library
-     * @return copy of list of movies
+     * @return list of movies
      */
-    public List<Movie> getMovieList() {
-        // return a copy
-        return List.copyOf(this.movieList);
+    public List<Movie> toList() {
+        // new list from values in movieMap
+        return new ArrayList<>(movieMap.values());
+    }
+
+    /**
+     * @return movie with imdbID
+     * @precondiion library has movie with imdbID
+     */
+    public Movie getMovie(String imdbID) {
+        return this.movieMap.get(imdbID);
     }
 
     /**
@@ -43,52 +48,7 @@ public class MovieLibrary implements Iterable<Movie> {
      * @return size
      */
     public int getSize() {
-        return this.movieList.size();
-    }
-
-    /**
-     * Factory to return an iterator over MovieLibrary
-     * @return it: an iterator
-     */
-    @Override
-    public Iterator<Movie> iterator() {
-        Iterator<Movie> it = new Iterator<>() {
-            private int currentIndex = 0;
-
-            @Override
-            public boolean hasNext() {
-                return currentIndex < getSize();
-            }
-
-            @Override
-            public Movie next() {
-                return movieList.get(currentIndex++);
-            }
-        };
-        return it;
-    }
-
-    /**
-     * Get a movie from list, also support negative index from the back
-     * @param index: index of movie to be selected
-     * @return Movie at index
-     */
-    public Movie get(int index) {
-        // convert to positive if negative index
-        int newIndex;
-        if (index < 0) {
-            newIndex = index + getSize();
-        }
-        else {
-            newIndex = index;
-        }
-        // indexing
-        if (newIndex > getSize() || newIndex < 0) {
-            return null;
-        }
-        else {
-            return movieList.get(index);
-        }
+        return this.movieMap.size();
     }
 
 }
