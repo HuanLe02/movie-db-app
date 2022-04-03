@@ -336,5 +336,5 @@ public class AppFrame extends JFrame implements ActionListener {
 
     }
     String getCollectionName() { return collectionName; }
-    Set<String> getCollectionButtonMap () {return collectionButtonMap.keySet();}
+    Set<String> getCollectionButtonSet () {return collectionButtonMap.keySet();}
 }

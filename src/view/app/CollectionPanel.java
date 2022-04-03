@@ -86,10 +86,9 @@ public class CollectionPanel extends LibraryPanel {
                 }
 
                 // if name already taken
-                if (parentFrame.getCollectionButtonMap().contains(collectionName)) {
+                if (parentFrame.getCollectionButtonSet().contains(collectionName)) {
                     JOptionPane.showMessageDialog(parentFrame,
                             "You already had a collection with the same name. Please enter a new name.");
-
                 }
                 else {
 
