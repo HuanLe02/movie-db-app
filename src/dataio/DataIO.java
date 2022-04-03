@@ -112,6 +112,17 @@ public class DataIO {
         catch (IOException e) {
             e.printStackTrace();
         }
+
+        // CREATE REVIEWS.JSON FILE
+        Path reviewFilePath = Paths.get(this.dataDirPath, "reviews.json");
+        // if path does not exist create one
+        if (!Files.exists(reviewFilePath)) {
+            try {
+                Files.createFile(reviewFilePath);
+            } catch (IOException e) {
+                throw new RuntimeException("No data folder");
+            }
+        }
     }
 
     /**

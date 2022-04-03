@@ -36,11 +36,6 @@ public class Main {
     public static void main(String[] args) {
         // background thread, autosave user data
         autosave();
-//
-//        // load data from library
-//        final MovieLibrary library = new MovieLibrary(dataIO);
-//        System.out.printf("Movie library loaded with %d items.\n", library.getSize());
-//        System.out.println(library.getMovie("tt0298148").getField("Year"));
 
         WelcomeFrame frame = new WelcomeFrame(manager);
         frame.setVisible(true);
