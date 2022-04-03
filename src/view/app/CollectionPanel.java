@@ -75,7 +75,7 @@ public class CollectionPanel extends LibraryPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String collectionName = JOptionPane.showInputDialog(
-                        "Enter new name for collection:",parentFrame.getCollectionName());
+                        "Enter new name for collection:");
                 if (collectionName == null) return;
 
                 // if user enters blank string
