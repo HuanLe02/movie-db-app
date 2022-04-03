@@ -26,7 +26,7 @@ public class AppFrame extends JFrame implements ActionListener {
     private final JPanel sidebar = new JPanel();
 
     // elements
-    protected final UserInfoPanel userPanel;
+    private final UserInfoPanel userPanel;
     private final LibraryPanel libraryPanel;
     private final JButton userButton = new JButton("My User");
     private final JButton libraryButton = new JButton("Movie Library");
