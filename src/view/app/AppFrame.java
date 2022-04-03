@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 public class AppFrame extends JFrame implements ActionListener {
 
@@ -335,5 +336,5 @@ public class AppFrame extends JFrame implements ActionListener {
 
     }
     String getCollectionName() { return collectionName; }
-    LinkedHashMap<String, JButton> getCollectionButtonMap () {return collectionButtonMap;}
+    Set<String> getCollectionButtonMap () {return collectionButtonMap.keySet();}
 }
