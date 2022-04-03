@@ -10,6 +10,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class LibraryPanel extends JPanel {
@@ -144,6 +146,9 @@ public class LibraryPanel extends JPanel {
         removeMovieButton.setVisible(false);
         removeMovieButton.setEnabled(false);
 
+        // add table listener
+        addTableListener();
+
         // Document Listeners for text fields
         addFieldDocumentListeners();
 
@@ -161,6 +166,21 @@ public class LibraryPanel extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
         this.add(rightPanel);
         this.add(leftPanel);
+    }
+
+    /**
+     * add listener to tableView
+     */
+    protected void addTableListener() {
+        tableView.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {   // check double click
+                    // popup movie info dialog, if a row is selected
+                    popupMovieInfoDialog();
+                }
+            }
+        });
     }
 
     /**
@@ -298,6 +318,41 @@ public class LibraryPanel extends JPanel {
                 tableView.getSelectionModel().clearSelection();
             }
         });
+
+        // VIEW MOVIE INFO
+        viewMovieButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // popup dialog
+                popupMovieInfoDialog();
+            }
+        });
+    }
+
+    /**
+     * popup movie info dialog, of selected movie
+     */
+    protected void popupMovieInfoDialog() {
+        String selectedID = selectedID();
+
+        // if user has not selected any => popup message & return early
+        if (selectedID == null) {
+            JOptionPane.showMessageDialog(parentFrame, "Please select a movie from list to add");
+        }
+        else {  // if not null
+            // Movie of selected ID
+            Movie mov = this.library.getMovie(selectedID);
+            // new dialog
+            MovieInfoDialog newDialog = new MovieInfoDialog(mov);
+            newDialog.setTitle("Movie Info");
+            newDialog.setMinimumSize(new Dimension(200,200));
+            newDialog.setLocationRelativeTo(null);
+            newDialog.pack();
+            // popup this new dialog
+            newDialog.setModal(true);
+            newDialog.setVisible(true);
+            newDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        }
     }
 
     /**
