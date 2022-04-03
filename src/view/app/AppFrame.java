@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class AppFrame extends JFrame implements ActionListener {
@@ -25,12 +26,14 @@ public class AppFrame extends JFrame implements ActionListener {
     private final JPanel sidebar = new JPanel();
 
     // elements
-    private final UserInfoPanel userPanel;
+    protected final UserInfoPanel userPanel;
     private final LibraryPanel libraryPanel;
     private final JButton userButton = new JButton("My User");
     private final JButton libraryButton = new JButton("Movie Library");
     private final JButton addButton = new JButton("Add Collection...");
     private final JButton removeButton = new JButton("Remove Collection...");
+    private String collectionName;
+
 
     // hash map of collection buttons, name as key
     // linked hashmap to preserve order
@@ -176,6 +179,7 @@ public class AppFrame extends JFrame implements ActionListener {
         this.pack();
     }
 
+
     /**
      * remove collection from sidebar
      * @param collectionName: String
@@ -256,7 +260,7 @@ public class AppFrame extends JFrame implements ActionListener {
                 defaultName = "Collection " + Integer.toString(count);
             }
 
-            String collectionName = JOptionPane.showInputDialog(this,
+            collectionName = JOptionPane.showInputDialog(this,
                     "Enter name for new collection:",
                     defaultName);
 
@@ -330,4 +334,6 @@ public class AppFrame extends JFrame implements ActionListener {
         }
 
     }
+    String getCollectionName() { return collectionName; }
+    LinkedHashMap<String, JButton> getCollectionButtonMap () {return collectionButtonMap;}
 }

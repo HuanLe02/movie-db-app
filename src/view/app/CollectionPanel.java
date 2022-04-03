@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public class CollectionPanel extends LibraryPanel {
 
     private final MovieCollection collection;
+    private final UserInfoPanel userPanel;
 
     /**
      * constructor
@@ -22,6 +23,7 @@ public class CollectionPanel extends LibraryPanel {
         // setup backend data
         super(parentFrame);
         this.collection = collection;
+        this.userPanel = new UserInfoPanel(parentFrame);
 
         // new coreList
         this.coreList = new ArrayList<>();
@@ -67,6 +69,34 @@ public class CollectionPanel extends LibraryPanel {
                 }
 
             }
+        });
+
+        renameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String collectionName = JOptionPane.showInputDialog(
+                        "Enter new name for collection:",parentFrame.getCollectionName());
+                if (collectionName == null) return;
+
+                // if user enters blank string
+                if (collectionName.isBlank()) {
+                    JOptionPane.showMessageDialog(parentFrame,
+                            "Invalid name entered. Please try again.");
+                    return;
+                }
+
+                // if name already taken
+                if (parentFrame.getCollectionButtonMap().containsKey(collectionName)) {
+                    JOptionPane.showMessageDialog(parentFrame,
+                            "You already had a collection with the same name. Please enter a new name.");
+
+                }
+                else {
+
+                }
+                return;
+            }
+
         });
     }
 
