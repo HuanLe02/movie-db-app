@@ -162,4 +162,13 @@ public class User {
     public MovieCollection getCollection(String name) {
         return this.collectionMap.get(name);
     }
+
+    /**
+     * rename a collection key
+     * @precondiion user had collection with key oldName
+     */
+    public void renameCollectionKey(String oldName, String newName) {
+        // remove entry of oldName key, then add it back with newName key
+        this.collectionMap.put(newName, this.collectionMap.remove(oldName));
+    }
 }
