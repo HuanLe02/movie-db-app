@@ -119,6 +119,7 @@ public class DataIO {
         if (!Files.exists(reviewFilePath)) {
             try {
                 Files.createFile(reviewFilePath);
+                overwriteAll(reviewFilePath.toString(), "[]");
             } catch (IOException e) {
                 throw new RuntimeException("No data folder");
             }
