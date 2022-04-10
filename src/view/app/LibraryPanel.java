@@ -344,14 +344,6 @@ public class LibraryPanel extends JPanel {
             Movie mov = this.library.getMovie(selectedID);
             // new dialog
             MovieInfoDialog newDialog = new MovieInfoDialog(mov);
-            newDialog.setTitle((String) mov.get("Title"));
-            newDialog.setMinimumSize(new Dimension(200,200));
-            newDialog.setLocationRelativeTo(null);
-            newDialog.pack();
-            // popup this new dialog
-            newDialog.setModal(true);
-            newDialog.setVisible(true);
-            newDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         }
     }
 
