@@ -10,5 +10,20 @@ public class Reviews {
 
     }
 
+    double getUserScore() {
+        return userScore;
+    }
+
+    String getUserName() {
+        return userName;
+    }
+
+    String getUserComment() {
+        return userComment;
+    }
+
+    String getImdbID() {
+        return imdbID;
+    }
 
 }
