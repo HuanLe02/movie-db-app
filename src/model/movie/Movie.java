@@ -17,4 +17,12 @@ public class Movie extends HashMap<String, Object>{
     public List<Reviews> getReviews() {
         return (new DataIO()).getReviews((String) this.get("imdbID"));
     }
+
+    /**
+     * add a review for movie
+     * @param rev: Review
+     */
+    public void addReview(Reviews rev) {
+        (new DataIO()).addReview(rev);
+    }
 }
