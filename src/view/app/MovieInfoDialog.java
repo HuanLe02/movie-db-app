@@ -7,13 +7,14 @@ import java.awt.event.ActionListener;
 
 public class MovieInfoDialog extends JDialog {
 
+
     // displayed fields
 
     /**
      * Constructor
      * @param mov: movie to display
      */
-    MovieInfoDialog(Movie mov) {
+    public MovieInfoDialog(Movie mov) {
 
     }
 
