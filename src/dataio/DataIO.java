@@ -2,6 +2,7 @@ package dataio;
 
 // self packages
 import model.movie.Movie;
+import model.movie.Reviews;
 import model.user.*;
 
 // java packages
@@ -9,6 +10,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 // 3rd party
 import com.google.gson.*;
@@ -289,7 +291,37 @@ public class DataIO {
     }
 
     /**
-     *
+     * get List<Review> associated with a movie
+     * @param imdbID: imdbID of movie
+     * @return List<Reviews>
      */
+    public List<Reviews> getReviews(String imdbID) {
+        String fpath = Paths.get(dataDirPath, "reviews.json").toString();
+
+        // read all reviews from reviews.json
+        String jsonStr = readAll(fpath);
+        List<Reviews> result = Arrays.asList(gson.fromJson(jsonStr, Reviews[].class));
+
+        // filter the list
+        return result.stream().filter(reviews -> reviews.getImdbID().equals(imdbID))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * add new Review to file
+     */
+    public void addReview(Reviews rev) {
+        String fpath = Paths.get(dataDirPath, "reviews.json").toString();
+
+        // read all reviews from reviews.json
+        String jsonStr = readAll(fpath);
+        List<Reviews> result = Arrays.asList(gson.fromJson(jsonStr, Reviews[].class));
+
+        // add new review
+        result.add(rev);
+
+        // overwrite file
+        overwriteAll(fpath, gson.toJson(result));
+    }
 
 }

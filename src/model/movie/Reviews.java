@@ -10,19 +10,19 @@ public class Reviews {
 
     }
 
-    double getUserScore() {
+    public double getUserScore() {
         return userScore;
     }
 
-    String getUserName() {
+    public String getUserName() {
         return userName;
     }
 
-    String getUserComment() {
+    public String getUserComment() {
         return userComment;
     }
 
-    String getImdbID() {
+    public String getImdbID() {
         return imdbID;
     }
 
