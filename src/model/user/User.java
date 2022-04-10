@@ -8,10 +8,11 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Set;
 
-public class User {
+//import static model.list.MovieCollection.*;
+
+public class User<collectionMap> {
     // private fields
     private final String username;
     private String password;
@@ -22,6 +23,7 @@ public class User {
     // hash map of MovieCollections, key is collection name
     // linked hashmap to preserve order
     private final LinkedHashMap<String, MovieCollection> collectionMap = new LinkedHashMap<>();
+
 
     /**
      * Generate an MD5 hash string given input
@@ -68,6 +70,7 @@ public class User {
         this.securityAnswer = getMD5(securityAnswer.toLowerCase());
         // set type
         this.isAdmin = isAdmin;
+
     }
 
     /**
@@ -153,6 +156,14 @@ public class User {
     public void removeCollection(String name) {
         this.collectionMap.remove(name);
     }
+    /**
+     * rename a collection key
+     * @precondiion user had collection with key oldName
+     */
+    public void renamecollectionKey(String oldName, String newName) {
+        // remove entry of oldName key, then add it back with newName key
+        this.collectionMap.put(newName, this.collectionMap.remove(oldName));
+    }
 
     /**
      * get collection with name
@@ -163,12 +174,4 @@ public class User {
         return this.collectionMap.get(name);
     }
 
-    /**
-     * rename a collection key
-     * @precondiion user had collection with key oldName
-     */
-    public void renameCollectionKey(String oldName, String newName) {
-        // remove entry of oldName key, then add it back with newName key
-        this.collectionMap.put(newName, this.collectionMap.remove(oldName));
-    }
 }

@@ -11,7 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
@@ -33,7 +32,6 @@ public class AppFrame extends JFrame implements ActionListener {
     private final JButton libraryButton = new JButton("Movie Library");
     private final JButton addButton = new JButton("Add Collection...");
     private final JButton removeButton = new JButton("Remove Collection...");
-    private String collectionName;
 
 
     // hash map of collection buttons, name as key
@@ -51,11 +49,11 @@ public class AppFrame extends JFrame implements ActionListener {
         this.libraryPanel = new LibraryPanel(this);
 
         // initialize collectionButtonMap with user's collection names
-        for (String collectionName : accManager.getCurrentUser().getCollectionNames()) {
-            JButton newButton = new JButton(collectionName);
-            newButton.setName(collectionName);     // set component name
+        for (Object collectionName : accManager.getCurrentUser().getCollectionNames()) {
+            JButton newButton = new JButton((String) collectionName);
+            newButton.setName((String) collectionName);     // set component name
             newButton.addActionListener(this);   // add action listener
-            collectionButtonMap.put(collectionName, newButton);  // put into hashmap
+            collectionButtonMap.put((String) collectionName, newButton);  // put into hashmap
         }
 
         // set sidebar layout
@@ -197,6 +195,20 @@ public class AppFrame extends JFrame implements ActionListener {
     }
 
     /**
+     * remove the old collection name and replace it with the new name
+     * @param oldcollectionName: String
+     * @param newcollectionName: String
+     */
+    void renameCollection(String oldcollectionName, String newcollectionName){
+        // remove old key, change name in collectionButtonMap
+        JButton button = collectionButtonMap.remove(oldcollectionName);
+        button.setName(newcollectionName);
+        button.setText(newcollectionName);
+        // add new key in collectionButtonMap
+        collectionButtonMap.put(newcollectionName, button);
+    }
+
+    /**
      * switch content panel
      */
     void switchContent(JPanel panel) {
@@ -261,7 +273,7 @@ public class AppFrame extends JFrame implements ActionListener {
                 defaultName = "Collection " + Integer.toString(count);
             }
 
-            collectionName = JOptionPane.showInputDialog(this,
+            String collectionName = JOptionPane.showInputDialog(this,
                     "Enter name for new collection:",
                     defaultName);
 
@@ -325,7 +337,7 @@ public class AppFrame extends JFrame implements ActionListener {
             // => stay at current panel
             // => else, new panel
             if (rightComponent.getClass().getTypeName().equals("view.app.CollectionPanel")
-            && ((CollectionPanel) rightComponent).getCollectionName().equals(componentName)) {
+                    && ((CollectionPanel) rightComponent).getCollectionName().equals(componentName)) {
                 return;
             }
             else {
@@ -333,8 +345,12 @@ public class AppFrame extends JFrame implements ActionListener {
                 switchContent(new CollectionPanel(currUser().getCollection(componentName), this));
             }
         }
-
     }
-    String getCollectionName() { return collectionName; }
+
+    /**
+     * get collection names
+     * @return set of all names of collection
+     */
     Set<String> getCollectionButtonSet () {return collectionButtonMap.keySet();}
+
 }

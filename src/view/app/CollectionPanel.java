@@ -74,6 +74,8 @@ public class CollectionPanel extends LibraryPanel {
         renameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                String currName = getCollectionName();
                 String collectionName = JOptionPane.showInputDialog(
                         "Enter new name for collection:");
                 if (collectionName == null) return;
@@ -91,7 +93,16 @@ public class CollectionPanel extends LibraryPanel {
                             "You already had a collection with the same name. Please enter a new name.");
                 }
                 else {
-
+                    if (!collectionName.equals(currName)) {
+                        // rename the collection
+                        collection.rename(collectionName);
+                        // Change the Label name
+                        nameLabel.setText(collectionName);
+                        // call the rename Function in the parent frame
+                        parentFrame.renameCollection(currName, collectionName);
+                        // rename the collection key
+                        parentFrame.currUser().renamecollectionKey(currName, collectionName);
+                    }
                 }
                 return;
             }
