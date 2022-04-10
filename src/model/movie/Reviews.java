@@ -6,8 +6,11 @@ public class Reviews {
     private String userComment;
     private String imdbID;
 
-    Reviews(String imdbID, String userName, double userScore, String userComment) {
-
+    public Reviews(String imdbID, String userName, double userScore, String userComment) {
+        this.userScore = userScore;
+        this.userName = userName;
+        this.imdbID = imdbID;
+        this.userComment = userComment;
     }
 
     public double getUserScore() {
