@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class MovieInfoDialog extends JDialog {
 
-
+    public Movie movie = new Movie();
     // displayed fields
 
     /**
@@ -15,6 +15,7 @@ public class MovieInfoDialog extends JDialog {
      * @param mov: movie to display
      */
     public MovieInfoDialog(Movie mov) {
+        movie = mov;
         JPanel movieInfo = new MovieInfoPanel(this);
         JPanel reviews = new ReviewPanel(this);
 
