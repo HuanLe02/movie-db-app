@@ -15,6 +15,12 @@ public class MovieInfoDialog extends JDialog {
      * @param mov: movie to display
      */
     public MovieInfoDialog(Movie mov) {
+        JPanel movieInfo = new MovieInfoPanel(this);
+        JPanel reviews = new ReviewPanel(this);
+
+        JSplitPane homeContainer = new JSplitPane(JSplitPane.VERTICAL_SPLIT, movieInfo, reviews);
+
+        this.add(homeContainer);
         this.setTitle((String) mov.get("Title"));
         this.setMinimumSize(new Dimension(800, 800));
         this.setLocationRelativeTo(null);
@@ -24,10 +30,7 @@ public class MovieInfoDialog extends JDialog {
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        JPanel movieInfo = new MovieInfoPanel(this);
-        JPanel reviews = new ReviewPanel(this);
 
-        JSplitPane homeContainer = new JSplitPane(JSplitPane.VERTICAL_SPLIT, movieInfo, reviews);
     }
 
 }
