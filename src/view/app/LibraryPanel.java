@@ -343,7 +343,7 @@ public class LibraryPanel extends JPanel {
             // Movie of selected ID
             Movie mov = this.library.getMovie(selectedID);
             // new dialog
-            MovieInfoDialog newDialog = new MovieInfoDialog(mov);
+            MovieInfoDialog newDialog = new MovieInfoDialog(mov, parentFrame);
         }
     }
 

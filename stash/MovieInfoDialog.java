@@ -7,17 +7,17 @@ import java.awt.*;
 
 public class MovieInfoDialog extends JDialog {
 
-    Movie movie = new Movie();
+
     // displayed fields
 
     /**
      * Constructor
      * @param mov: movie to display
+     * @param parentFrame: parent frame
      */
     public MovieInfoDialog(Movie mov, AppFrame parentFrame) {
-        movie = mov;
-        JPanel movieInfo = new MovieInfoPanel(this);
-        JPanel reviews = new ReviewPanel(this, parentFrame);
+        JPanel movieInfo = new MovieInfoPanel(this, mov, parentFrame);
+        JPanel reviews = new ReviewPanel(this);
 
         JSplitPane homeContainer = new JSplitPane(JSplitPane.VERTICAL_SPLIT, movieInfo, reviews);
 
@@ -30,7 +30,6 @@ public class MovieInfoDialog extends JDialog {
         this.setModal(true);
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-
     }
 
 }

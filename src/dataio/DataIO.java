@@ -315,7 +315,7 @@ public class DataIO {
 
         // read all reviews from reviews.json
         String jsonStr = readAll(fpath);
-        List<Reviews> result = Arrays.asList(gson.fromJson(jsonStr, Reviews[].class));
+        ArrayList<Reviews> result = new ArrayList<>(Arrays.asList(gson.fromJson(jsonStr, Reviews[].class)));
 
         // add new review
         result.add(rev);
