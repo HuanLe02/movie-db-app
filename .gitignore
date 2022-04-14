@@ -29,6 +29,9 @@ out/
 data/users/
 data/reviews.json
 
+# ignore stash folder
+stash/
+
 # Unignore jar libraries
 !lib/*.jar
 

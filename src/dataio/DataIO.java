@@ -2,7 +2,7 @@ package dataio;
 
 // self packages
 import model.movie.Movie;
-import model.movie.Reviews;
+import model.movie.Review;
 import model.user.*;
 
 // java packages
@@ -295,27 +295,27 @@ public class DataIO {
      * @param imdbID: imdbID of movie
      * @return List<Reviews>
      */
-    public List<Reviews> getReviews(String imdbID) {
+    public List<Review> getReviews(String imdbID) {
         String fpath = Paths.get(dataDirPath, "reviews.json").toString();
 
         // read all reviews from reviews.json
         String jsonStr = readAll(fpath);
-        List<Reviews> result = Arrays.asList(gson.fromJson(jsonStr, Reviews[].class));
+        List<Review> result = Arrays.asList(gson.fromJson(jsonStr, Review[].class));
 
         // filter the list
-        return result.stream().filter(reviews -> reviews.getImdbID().equals(imdbID))
+        return result.stream().filter(review -> review.getImdbID().equals(imdbID))
                 .collect(Collectors.toList());
     }
 
     /**
      * add new Review to file
      */
-    public void addReview(Reviews rev) {
+    public void addReview(Review rev) {
         String fpath = Paths.get(dataDirPath, "reviews.json").toString();
 
         // read all reviews from reviews.json
         String jsonStr = readAll(fpath);
-        ArrayList<Reviews> result = new ArrayList<>(Arrays.asList(gson.fromJson(jsonStr, Reviews[].class)));
+        ArrayList<Review> result = new ArrayList<>(Arrays.asList(gson.fromJson(jsonStr, Review[].class)));
 
         // add new review
         result.add(rev);

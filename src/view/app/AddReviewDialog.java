@@ -1,10 +1,9 @@
 package view.app;
 
 import model.movie.Movie;
-import model.movie.Reviews;
+import model.movie.Review;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -69,7 +68,7 @@ public class AddReviewDialog extends JDialog {
                     JOptionPane.showMessageDialog(homeContainer, "Cannot enter blank comment");
                     return;
                 }
-                Reviews review = new Reviews((String) mov.get("imdbID"), userName,
+                Review review = new Review((String) mov.get("imdbID"), userName,
                         (Double) selectScore.getSelectedItem(), comment);
                 // call addReview on movie
                 mov.addReview(review);

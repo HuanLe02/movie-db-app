@@ -1,8 +1,7 @@
 package view.app;
 
-import model.movie.Reviews;
+import model.movie.Review;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 import java.awt.*;
@@ -64,7 +63,7 @@ public class ReviewPanel extends JPanel {
      */
     private void loadReviews() {
         // get list of reviews associated w/ movie
-        List<Reviews> reviewsList = parentDialog.movie.getReviews();
+        List<Review> reviewsList = parentDialog.movie.getReviews();
 
         // reset comment panel
         commentsPanel.removeAll();
@@ -77,7 +76,7 @@ public class ReviewPanel extends JPanel {
 
         // calculate to display avg score and review comments
         double avgScore = 0.0;
-        for (Reviews rev : reviewsList) {   // calculate average score
+        for (Review rev : reviewsList) {   // calculate average score
             avgScore += rev.getUserScore();
 
             // add labels to comment panels
