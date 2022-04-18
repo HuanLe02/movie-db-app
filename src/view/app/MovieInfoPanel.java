@@ -24,6 +24,8 @@ public class MovieInfoPanel extends JPanel implements ActionListener {
         this.setLayout(new GridLayout(4, 2));
 
         addElements();
+
+        backButton.addActionListener(this);
     }
 
     private void addElements() {
@@ -37,6 +39,9 @@ public class MovieInfoPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == backButton) {
+            parentDialog.dispose();
+        }
 
     }
 }
