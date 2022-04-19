@@ -22,9 +22,9 @@ public class Main {
                     dataIO.saveUser(currentUser);     // save user
 //                    System.out.println("User saved");
                 }
-//                else {
-//                    System.out.println("No user");
-//                }
+/*                 else {
+                      System.out.println("No user");
+                }*/
             }
         };
         t.scheduleAtFixedRate(

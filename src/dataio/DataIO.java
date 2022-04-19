@@ -229,7 +229,7 @@ public class DataIO {
      * @return true if user exists
      */
     public Boolean userExists(String username) {
-        String fname = username + ".json";
+        String fname = username + ".json"; // concatenate the username and with json extension
         return Files.exists(Paths.get(dataDirPath, "users", fname));
     }
 
