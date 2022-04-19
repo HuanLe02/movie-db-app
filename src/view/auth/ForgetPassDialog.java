@@ -23,6 +23,7 @@ public class ForgetPassDialog extends JDialog {
        homeContainer.add(new ForgetPassPanel(accManager, this));
        homeContainer.add(Box.createHorizontalStrut(10));
 
+
        // set frame attributes
        this.add(homeContainer);
        this.setResizable(false);
