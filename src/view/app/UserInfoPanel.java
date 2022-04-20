@@ -163,7 +163,7 @@ public class UserInfoPanel extends JPanel implements ActionListener {
                         "Confirmation",
                         JOptionPane.YES_NO_OPTION);
 
-                // if confirmed yes
+                // If confirmed as yes
                 if (confirm == 0) {
                     // set data folder path
                     JOptionPane.showMessageDialog(parentFrame,"Data folder path is reset. Program will be closed.");

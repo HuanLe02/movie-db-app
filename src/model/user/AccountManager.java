@@ -80,6 +80,7 @@ public class AccountManager {
      * logout
      */
     public void logout() {
+        // set current user to null
         this.currentUser = null;
         System.out.println("Logged out");
     }
@@ -111,6 +112,6 @@ public class AccountManager {
      * @return True if there's a user logged in, False otherwise
      */
     public boolean isLoggedIn() {
-        return currentUser != null;
+        return currentUser != null; // if current user is not null, therefore a user is logged in.
     }
 }
