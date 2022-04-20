@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"dataio"},{"l":"model.list"},{"l":"model.movie"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"dataio"},{"l":"model.list"},{"l":"model.movie"},{"l":"model.user"},{"l":"view"},{"l":"view.app"},{"l":"view.auth"}];updateSearchResults();

@@ -2,3 +2,7 @@ unnamed package
 dataio
 model.list
 model.movie
+model.user
+view
+view.app
+view.auth
